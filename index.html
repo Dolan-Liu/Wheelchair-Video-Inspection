@@ -127,7 +127,10 @@
                     <form id="inspectionForm" class="d-flex align-items-center mb-1">
                         <label for="inspectorName" class="me-2" style="font-size: 18px;">Name:</label>
                         <input type="text" id="inspectorName" name="inspectorName" class="form-control me-2" style="width: 160px;" required>
-                        <input type="file" id="fileInput" multiple style="flex-grow: 1; max-width: 250px;" />
+                        <!-- 这是我们真正的文件上传框，但隐藏掉 -->
+                        <input type="file" id="fileInput" multiple />
+                        <!-- 这是点击后触发上传的自定义按钮 -->
+                        <label for="fileInput" class="custom-file-label">Choose Files</label>
                         <button type="button" id="settingsButton" class="btn btn-secondary" disabled>
                             <i class="fas fa-cog"></i>
                         </button>
