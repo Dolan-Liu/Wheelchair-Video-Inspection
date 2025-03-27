@@ -936,11 +936,6 @@
                 const currentPoints = gpsData.filter(point => Math.abs(point.cts - currentTime) <= 0.3);
                 const closestPoint  = currentPoints[0];
 
-                // console.log(video_fv);
-                // console.log(currentTime);
-                // console.log(currentPoints);
-                // console.log(closestPoint);
-
                 const maxZoomLevel = map.getMaxZoom();
                 map.setView([closestPoint.lat, closestPoint.long], maxZoomLevel);
 
@@ -975,19 +970,6 @@
                 }
             });
         }
-
-        // function updateProgress() {
-        //     videoProgress.value = (videoFV.currentTime / videoFV.duration) * 100;
-        // }
-
-        // videoFV.addEventListener('timeupdate', updateProgress);
-        // videoDV.addEventListener('timeupdate', updateProgress);
-
-        // videoProgress.addEventListener('input', function() {
-        //     const time = (videoProgress.value / 100) * videoFV.duration;
-        //     videoFV.currentTime = time;
-        //     videoDV.currentTime = time;
-        // });
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function lockratios() {
@@ -1254,18 +1236,13 @@
             console.log(files);
             var fvFile, dvFile, gpsFile;
 
-            // if (files.length !== 4) {
-            //     alert('Loading failed: Please select correct video files');
-            //     return;
-            // }
-
             for (var i = 0; i < files.length; i++) {
                 if (files[i].name.includes('fv') && (files[i].name.endsWith('.mp4') || files[i].name.endsWith('.MP4'))) {
                     fvFile = files[i];
                 } else if (files[i].name.includes('dv') && (files[i].name.endsWith('.mp4') || files[i].name.endsWith('.MP4'))) {
                     dvFile = files[i];
                 } else if (files[i].name.includes('fv') && files[i].name.endsWith('.js')) {
-                    gpsFile = 'videos/' + files[i].name;
+                    gpsFile = URL.createObjectURL(files[i]);
                 } 
             }
 
