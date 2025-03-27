@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Update Note [Vehicle Flythrough 2023] </title>
+
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,500,700,800,900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" type = "text/css" href="flythrough_formatting.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"> -->
+
+    
+
+    <noscript>Sorry, your browser does not support JavaScript!</noscript> <!-- This line will print this message if the browser does not allow JS scripts to run -->
+    <script src="https://d3js.org/d3.v3.min.js"></script> <!-- Import D3 Javascript from web source -->
+
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class='title-text'>Developer's Update Note</h1>
+        <h2 class="version-text">Vehicle Flythrough 2023</h2>
+    </div>
+
+    <div class="container mt-5">
+        <h4 style="font-weight:700;"> Version 0.0.1 </h4>
+        <hr width="50%" />
+        
+        
+        <h5 style="font-weight: 600;"> <i class="fa fa-code" style="color: #2390d8;">  </i>  &nbsp June 26, 2023</h5>
+        <ul>  
+            <li> Changed governing font as Lato - parsed from Google fonts</li>
+            <li> Changed overall theme using bootstrap version 5 - navbar and buttons </li>
+            <li> Navigation bar: Inserted icons of ITS4US and Georgia Tech / Pages / Short Description  </li>
+            <li><em>"Start Recording" </em> Functions
+                <ul>
+                    <li>The marker can be traced with a solid line as it is dragged</li>
+                    <li>The ID of the marker pops up when it is clicked</li>
+                    <li>The toggles of Left/Right sidewalks are cleared out if marker moves</li>
+                    <li>The toggles are recorded only when <em>"Done Select" </em> is clicked</li>
+                    <li>The logs are visually shown in the table</li>
+                  </ul>  
+            </li>
+            <li><em>"Download CSV" </em> Functions
+                <ul>
+                    <li>The logs can be downloaded with a customized file name/li>
+                  </ul>  
+            </li>
+
+        </ul>
+
+        <h5 style="font-weight: 600;"> <i class="fa fa-code" style="color: #2390d8;">  </i>  &nbsp July 3rd, 2023</h5>
+        <ul>  
+            <li> Highlight the row of the table when the certain marker is clicked</li>
+            <li> ID column is added to the table
+
+        </ul>
+
+
+        <h5 style="font-weight: 600;"> <i class="fa fa-code" style="color: #fc01da;">  </i>  &nbsp Minor To-Dos</h5>
+        <ul>  
+
+            <li> Enable loading the csv file to the application. The post-editing may required </li>
+            <li> Methods to efficiently parse synchronized still images</li>
+
+        </ul>
+
+        <h5 style="font-weight: 600;"> <i class="fa fa-code" style="color: #fc01da;">  </i>  &nbsp Major To-Dos</h5>
+        <ul>  
+            
+            <li> [Jul 3 Feedback] Synchronizing videos - two possible ways
+                 <ul>
+                    <li> Parse the still image from video in real-time: maybe storage efficient with high precision / but meta data are requisite and more difficult</li>
+                    <li style="list-style-type: None"> We are moving the slider bar of the video by finding the nearest frame</li>
+                    <li> Parse the still images already stored as a capture:   </li>
+                    <li style="list-style-type: None"> We are finding the most accurate image from the large set of images: storage inefficient if precision increases / maybe easier? </li>
+                 </ul>
+            </li>
+            <li> Let's take the latter
+                <ol>
+                    <li> Geotag GoPro Video - We should turn on the meta data setting (Kalyani)</li>
+                    <li> Extract frames from the video - how precise the fps should be (Kalyani)</li>
+                    <li> Create API to serve images - Node.js with Express (Garyoung)</li>
+                    <li> Integrate API with this HTML (Garyoung)</li>
+                </ol>
+            </li>
+            <li> [Jul 11 Feedback] Though, the former will be ideal. (This way will be convenient to incorporate selection of ramp and curb cuts)
+                <ol>
+                    <li> Map the video-collected points over the osm map  </li>
+                    <li> If we click the point, the corresponding image should be updated</li>
+                    <li> Coloring points differently based on whether or not they've been inspected and whether the img quality is good or bad</li>
+                    <li> Save video frame of the point when logging is done </li>
+                </ol>
+            </li>
+        </ul>
+
+
+
+
+        <h4 style="font-weight:700;"> Version 0.0.2 </h4>
+        <hr width="50%" />
+        
+        
+        <h5 style="font-weight: 600;"> <i class="fa fa-code" style="color: #fc01da;">  </i>  &nbsp Plans (July 17, 2023)</h5>
+        <ol>  
+            <li> Make a dictionary of GPS coordinates of collected video - Javascript</li>
+            <li> Display the points in the OSM map</li>
+            <li> Set up a database <em>(our own? MongoDB?)</em> to store a user input. If we were to color the points by the inspection completion, we should be able to store all the data in one place rather than asking the user to save the data they inspected. Each point will have properties like location, sidewalkPresence, rampPresence, curbcutPresence, and status (inspected or not).</li>
+            <li> Updating Image on Click: Implement an event listener for point clicks. When a point on the map is clicked, display the corresponding image from the GoPro video. </li>
+            <li> Form for Selection: Below or beside the image, display a form with selection options for sidewalk presence, ramp, and curbcut. When the user makes their selection and clicks "save", send this data to your backend using an AJAX call or fetch API.</li>
+            <li> Updating Database: On the backend, handle the incoming request and update the database with the user's selection.</li>
+            <li> Color Coding Points: After a point is inspected and the selection is saved, change the color of the point to signify its status. You can set different colors for different statuses, like inspected and uninspected points, and points with ramps/curbcuts. This can be achieved by updating the properties of the point marker in Leaflet.js.</li>
+            <li> (optional) Displaying Changes to All Users: If you want changes to be displayed in real-time to all users, you may need to implement WebSockets using something like Socket.io. This allows you to push updates from the server to all connected clients when a change occurs.</li>
+        </ol>
+
+
+
+        <h4 style="font-weight:700;"> Version 0.0.7 </h4>
+        <hr width="50%" />
+        
+        
+        <h5 style="font-weight: 600;"> <i class="fa fa-code" style="color: #fc01da;">  </i>  &nbsp Plans (July 17, 2023)</h5>
+        <ol>  
+            <li>Fixed Bugs
+                <ul>
+                    <li>When changing the playback speed of the main video, the playback speed of the two videos is out of sync.</li>
+                    <li>Problem list can only be activated by selecting asset type</li>
+                  </ul>  
+            </li>
+            <li>Add Function
+                <ul>
+                    <li>Data will be saved automatically every 5 minutes</li>
+
+                  </ul>  
+            </li>
+        </ol>
+
+        <h4 style="font-weight:700;"> Version 0.0.8 </h4>
+        <hr width="50%" />
+        
+        
+        <h5 style="font-weight: 600;"> <i class="fa fa-code" style="color: #fc01da;">  </i>  &nbsp Plans (July 17, 2023)</h5>
+        <ol>  
+            <li>Layout changes
+                <ul>
+                    <li>Remove "Clear all" button</li>
+                    <li>Make "Verify" button bigger</li>
+                    <li>For ramp and curb cut, add an idfentify button</li>
+                  </ul>  
+            </li>
+        </ol>
+
+        <h4 style="font-weight:700;"> Version 0.0.9 </h4>
+        <hr width="50%" />
+        
+        
+        <h5 style="font-weight: 600;"> <i class="fa fa-code" style="color: #fc01da;">  </i>  &nbsp Plans (July 26, 2023)</h5>
+        <ol>  
+            <li>Layout changes
+                <ul>
+                    <li>Add adjustment function, to make two videos synchronized</li>
+                    <li>Add red box for two videos to help inspectors determine the problem</li>
+                  </ul>  
+            </li>
+        </ol>
+
+        <h4 style="font-weight:700;"> Version 0.1.0 </h4>
+        <hr width="50%" />
+        
+        
+        <h5 style="font-weight: 600;"> <i class="fa fa-code" style="color: #fc01da;">  </i>  &nbsp Plans (July 26, 2023)</h5>
+        <ol>  
+            <li>Layout changes
+                <ul>
+                    <li>Remove the adjust time in setting menu</li>
+                    <li>Move the "Verify" button before "Backward" and "Forward" buttons</li>
+                  </ul>  
+            </li>
+            <li>Add Function
+                <ul>
+                    <li>Erase the "Asset Type" button when click "Verify" button</li>
+                    <li>Let the "crossing" type has same problems list as "sidewalk" type</li>
+                    <li>Enable "other" to input the problem</li>
+                  </ul>  
+            </li>
+        </ol>
+
+        <h4 style="font-weight:700;"> Version 0.1.1 </h4>
+        <hr width="50%" />
+        
+        
+        <h5 style="font-weight: 600;"> <i class="fa fa-code" style="color: #fc01da;">  </i>  &nbsp Plans (July 31, 2023)</h5>
+        <ol>  
+            <li>Layout changes
+                <ul>
+                    <li>Remove the adjust time in setting menu</li>
+                    <li>Move the "Verify" button before "Backward" and "Forward" buttons</li>
+                  </ul>  
+            </li>
+            <li>Add Function
+                <ul>
+                    <li>Erase the "Asset Type" button when click "Verify" button</li>
+                    <li>Let the "crossing" type has same problems list as "sidewalk" type</li>
+                    <li>Enable "other" to input the problem</li>
+                  </ul>  
+            </li>
+        </ol>
+
+        <h5 style="font-weight: 600;"> <i class="fa fa-code" style="color: #fc01da;">  </i>  &nbsp Plans (Feb 02, 2023)</h5>
+        <ol>  
+            <li>Layout changes
+                <ul>
+                    <li>Remove the adjust time in setting menu</li>
+                    <li>Move the "Verify" button before "Backward" and "Forward" buttons</li>
+                  </ul>  
+            </li>
+            <li>Add Function
+                <ul>
+                    <li>Erase the "Asset Type" button when click "Verify" button</li>
+                    <li>Let the "crossing" type has same problems list as "sidewalk" type</li>
+                    <li>Enable "other" to input the problem</li>
+                  </ul>  
+            </li>
+        </ol>
+
+        <h5 style="font-weight: 600;"> <i class="fa fa-code" style="color: #fc01da;">  </i>  &nbsp Plans (Feb 06, 2023)</h5>
+        <ol>  
+            <li>Function revised
+                <ul>
+                    <li>Disable the setting button before input file</li>
+                    <li>Delay dv video if lagTime less than 0</li>
+                    <li>Disable the checkbox when saveing the setting, only avaible after clicking ratio button</li>
+                    <li>Gap label update with clicking video control button</li>
+                  </ul>  
+            </li>
+        </ol>
+
+        <h5 style="font-weight: 600;"> <i class="fa fa-code" style="color: #fc01da;">  </i>  &nbsp Plans (Feb 19, 2023)</h5>
+        <ol>  
+            <li>Function revised
+                <ul>
+                    <li>Add resume inspection function</li>
+                    <li>Add an overlay on two videos, and remove them after clicking "Start inspection" button</li>
+                  </ul>  
+            </li>
+        </ol>
+
+
+
+  </div>
+
+
+
+</body>
+<br>
+<br>
+<footer>
+
+</footer>
+
+
+
+</html>
