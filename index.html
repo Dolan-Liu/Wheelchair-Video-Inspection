@@ -827,35 +827,67 @@
         enableScreenshot = true;
 
 
-        function loadGPSData(file) {
-            var script = document.createElement('script');
-            script.src = file;
-            document.head.appendChild(script);
-            script.onload = function() {
-                var gpsData = window[file.split('/').pop().split('.').slice(0, -1).join('.')];
+        // function loadGPSData(file) {
+        //     var script = document.createElement('script');
+        //     script.src = file;
+        //     document.head.appendChild(script);
+        //     script.onload = function() {
+        //         var gpsData = window[file.split('/').pop().split('.').slice(0, -1).join('.')];
                 
-                console.log('Loaded GPS data:', gpsData);  // print the loaded data to the console -->
-                if (gpsData) {
-                    var totalLat = 0;
-                    var totalLong = 0;
-                    var numPoints = gpsData.length;
+        //         console.log('Loaded GPS data:', gpsData);  // print the loaded data to the console -->
+        //         if (gpsData) {
+        //             var totalLat = 0;
+        //             var totalLong = 0;
+        //             var numPoints = gpsData.length;
 
-                    for (var i = 0; i < numPoints; i++) {
-                        totalLat += gpsData[i].lat;
-                        totalLong += gpsData[i].long;
-                    }
+        //             for (var i = 0; i < numPoints; i++) {
+        //                 totalLat += gpsData[i].lat;
+        //                 totalLong += gpsData[i].long;
+        //             }
 
-                    var avgLat = totalLat / numPoints;
-                    var avgLong = totalLong / numPoints;
+        //             var avgLat = totalLat / numPoints;
+        //             var avgLong = totalLong / numPoints;
 
-                    map.setView([avgLat, avgLong], 14); 
+        //             map.setView([avgLat, avgLong], 14); 
 
-                    createOverlay(gpsData);
+        //             createOverlay(gpsData);
                     
-                } else {
-                    console.log('Failed to load GPS data from:', gpsfile);
-                }
-            }
+        //         } else {
+        //             console.log('Failed to load GPS data from:', gpsfile);
+        //         }
+        //     }
+        // }
+        
+        function loadGPSData(file) {
+            fetch(file)
+                .then(response => response.json())
+                .then(gpsData => {
+                    console.log('✅ Loaded GPS data:', gpsData);
+        
+                    if (gpsData && gpsData.length > 0) {
+                        let totalLat = 0;
+                        let totalLong = 0;
+        
+                        for (let i = 0; i < gpsData.length; i++) {
+                            totalLat += gpsData[i].lat;
+                            totalLong += gpsData[i].long;
+                        }
+        
+                        const avgLat = totalLat / gpsData.length;
+                        const avgLong = totalLong / gpsData.length;
+        
+                        // 设置地图视角
+                        map.setView([avgLat, avgLong], 14);
+        
+                        // 调用你已有的 overlay 创建逻辑
+                        createOverlay(gpsData);
+                    } else {
+                        console.log('⚠️ GPS data is empty or invalid:', file);
+                    }
+                })
+                .catch(error => {
+                    console.error('❌ Failed to load GPS data:', error);
+                });
         }
 
         function getCircleColor(sidewalkStatus) {
