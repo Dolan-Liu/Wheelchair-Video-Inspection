@@ -13,8 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" type = "text/css" href="required/wheelchair video inspection app.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"> -->
 
     <!-- For OSM -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -24,19 +22,6 @@
 
     <noscript>Sorry, your browser does not support JavaScript!</noscript> <!-- This line will print this message if the browser does not allow JS scripts to run -->
     <script src="https://d3js.org/d3.v3.min.js"></script> <!-- Import D3 Javascript from web source -->
-
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/geolib/3.3.1/geolib.js"></script> -->
-    <!-- <script> 
-        
-        window.addEventListener('beforeunload', function (e) {
-            var message = "Are you sure?";
-            e.preventDefault();
-            e.returnValue = message;
-            return message;
-        });
-       
-    </script> -->
-
 
 </head>
 
@@ -72,12 +57,6 @@
                     </div>
                     <div class="info-item">
                         <strong>Frame Number:</strong> <span id="frameNumber">0</span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Accelerometer Data [x, y, z]:</strong>
-                    </div>
-                    <div class="info-item">
-                        <span id="accelerometerInfo">[0, 0, 0]</span>
                     </div>
                 </div>
 
@@ -802,15 +781,6 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
     <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            var userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            var { name, mode, route } = userInfo;
-
-            // 使用这些参数进行操作
-            console.log(name, mode, route);
-        });
-
-
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Update map and add circle of the current video frame
         const inspectorName = document.getElementById('inspectorName').value.trim();
@@ -993,19 +963,7 @@
                 let videoData = {
                     time: closestPoint.timestamp,
                     gps: { lat: closestPoint.lat, lon: closestPoint.long },
-                    frame: currentFrame,
-                    accelerometer: closestPoint.accel,
-                    gyroscope: closestPoint.gyro,
-                    accelerometer: { 
-                        x: Number(closestPoint.accel[0].toFixed(fixdigit)), 
-                        y: Number(closestPoint.accel[1].toFixed(fixdigit)), 
-                        z: Number(closestPoint.accel[2].toFixed(fixdigit)) 
-                    },
-                    gyroscope: {
-                        alpha: Number(closestPoint.gyro[0].toFixed(fixdigit)), 
-                        beta: Number(closestPoint.gyro[1].toFixed(fixdigit)), 
-                        gamma: Number(closestPoint.gyro[2].toFixed(fixdigit)) 
-                    }
+                    frame: currentFrame
                 };
 
                 if (Math.floor(currentTime) !== Math.floor(lastUpdateTime)) {
@@ -1014,8 +972,6 @@
                     document.getElementById('recordingTime').textContent = videoData.time.substring(0, 19);
                     document.getElementById('gpsInfo').textContent = `(${videoData.gps.lat}, ${videoData.gps.lon})`;
                     document.getElementById('frameNumber').textContent = videoData.frame;
-                    document.getElementById('accelerometerInfo').textContent = `[${videoData.accelerometer.x}, ${videoData.accelerometer.y}, ${videoData.accelerometer.z}]`;
-                    // document.getElementById('gyroscopeInfo').textContent = `[${videoData.gyroscope.alpha}, ${videoData.gyroscope.beta}, ${videoData.gyroscope.gamma}]`;
                 }
             });
         }
@@ -1277,8 +1233,6 @@
             document.getElementById('recordingTime').textContent = 'YYYY-mm-dd 00:00:00';
             document.getElementById('gpsInfo').textContent = `(Latitude: 0, Longitude: 0)`;
             document.getElementById('frameNumber').textContent = '0';
-            document.getElementById('accelerometerInfo').textContent = `x: 0, y: 0, z: 0`;
-            // document.getElementById('gyroscopeInfo').textContent = `alpha: 0, beta: 0, gamma: 0`;
         });
 
         // Enter information settings and select the correct folder
